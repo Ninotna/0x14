@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
+import { SHModal } from 'react-modal-sh-modal';
 import 'react-datepicker/dist/react-datepicker.css';
+import 'react-modal-sh-modal/dist/modal.css';
 
 function CreateEmployee()
 {
@@ -11,6 +13,7 @@ function CreateEmployee()
 	const [startDate, setStartDate] = useState(null);
 	const [department, setDepartment] = useState(null);
 	const [state, setState] = useState(null);
+	const [isModalOpen, setModalOpen] = useState(false);
 
 	const departments = [
 		{ value: 'Sales', label: 'Sales' },
@@ -32,7 +35,7 @@ function CreateEmployee()
 		console.log({
 			firstName, lastName, birthDate, startDate, department, state
 		});
-		// Enregistrer les données plus tard ici
+		setModalOpen(true);
 	}
 
 	return (
@@ -67,6 +70,10 @@ function CreateEmployee()
 
 				<button type="submit">Enregistrer</button>
 			</form>
+
+			<SHModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+				<h2>Employé créé avec succès !</h2>
+			</SHModal>
 		</main>
 	);
 }
