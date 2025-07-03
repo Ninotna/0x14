@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import regions from '../data/regions-fr.json';
 import departments from '../data/departments-fr.json';
+import SelectMenu from '../components/SelectMenu';
 
 const AddEmployee = () => {
 	const dispatch = useDispatch();
@@ -55,23 +56,19 @@ const AddEmployee = () => {
 				<input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="Ville" className="border p-2 w-full" required />
 				<input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} placeholder="Code postal" className="border p-2 w-full" required />
 				
-				<select name="region" value={formData.region} onChange={handleChange} className="border p-2 w-full" required>
-					<option value="">-- Région française --</option>
-					{regions.map((region) => (
-						<option key={region.code} value={region.name}>
-							{region.name}
-						</option>
-					))}
-				</select>
+<SelectMenu
+	label="-- Région française --"
+	value={formData.region}
+	onChange={(value) => setFormData((prev) => ({ ...prev, region: value }))}
+	options={regions.map((r) => ({ label: r.name, value: r.name }))}
+/>
 
-				<select name="department" value={formData.department} onChange={handleChange} className="border p-2 w-full" required>
-					<option value="">-- Département français --</option>
-					{departments.map((dept) => (
-						<option key={dept.code} value={dept.name}>
-							{dept.name}
-						</option>
-					))}
-				</select>
+<SelectMenu
+	label="-- Département français --"
+	value={formData.department}
+	onChange={(value) => setFormData((prev) => ({ ...prev, department: value }))}
+	options={departments.map((d) => ({ label: d.name, value: d.name }))}
+/>
 
 				<button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">Enregistrer</button>
 			</form>
