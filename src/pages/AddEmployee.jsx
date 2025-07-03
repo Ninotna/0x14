@@ -31,14 +31,18 @@ const AddEmployee = () => {
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		dispatch(addEmployee(formData));
-		setModalOpen(true);
-		setTimeout(() => {
-			navigate('/employees');
-		}, 500);
+const handleSubmit = (e) => {
+	e.preventDefault();
+	const formattedData = {
+		...formData,
+		dateOfBirth: formData.dateOfBirth?.toLocaleDateString(),
+		startDate: formData.startDate?.toLocaleDateString()
 	};
+	dispatch(addEmployee(formattedData));
+	setModalOpen(true);
+	setTimeout(() => navigate('/employees'), 500);
+};
+
 
 	return (
 		<div className="p-6">
