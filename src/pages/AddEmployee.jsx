@@ -14,35 +14,34 @@ const AddEmployee = () => {
 	const navigate = useNavigate();
 
 	const [modalOpen, setModalOpen] = useState(false);
-const [formData, setFormData] = useState({
-	firstName: '',
-	lastName: '',
-	dateOfBirth: null,
-	startDate: null,
-	street: '',
-	city: '',
-	zipCode: '',
-	department: '',
-	region: ''
-});
+	const [formData, setFormData] = useState({
+		firstName: '',
+		lastName: '',
+		dateOfBirth: null,
+		startDate: null,
+		street: '',
+		city: '',
+		zipCode: '',
+		department: '',
+		region: ''
+	});
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
-const handleSubmit = (e) => {
-	e.preventDefault();
-	const formattedData = {
-		...formData,
-		dateOfBirth: formData.dateOfBirth?.toLocaleDateString(),
-		startDate: formData.startDate?.toLocaleDateString()
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const formattedData = {
+			...formData,
+			dateOfBirth: formData.dateOfBirth?.toLocaleDateString(),
+			startDate: formData.startDate?.toLocaleDateString()
+		};
+		dispatch(addEmployee(formattedData));
+		setModalOpen(true);
+		setTimeout(() => navigate('/employees'), 500);
 	};
-	dispatch(addEmployee(formattedData));
-	setModalOpen(true);
-	setTimeout(() => navigate('/employees'), 500);
-};
-
 
 	return (
 		<div className="p-6">
@@ -55,39 +54,39 @@ const handleSubmit = (e) => {
 				<input type="text" name="street" value={formData.street} onChange={handleChange} placeholder="Adresse" className="border p-2 w-full" required />
 				<input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="Ville" className="border p-2 w-full" required />
 				<input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} placeholder="Code postal" className="border p-2 w-full" required />
-<select
-	name="region"
-	value={formData.region}
-	onChange={handleChange}
-	className="border p-2 w-full"
-	required
->
-	<option value="">-- Région française --</option>
-	{regions.map((region) => (
-		<option key={region.code} value={region.name}>
-			{region.name}
-		</option>
-	))}
-</select>
-<select
-	name="department"
-	value={formData.department}
-	onChange={handleChange}
-	className="border p-2 w-full"
-	required
->
-	<option value="">-- Département français --</option>
-	{departments.map((dept) => (
-		<option key={dept.code} value={dept.name}>
-			{dept.name}
-		</option>
-	))}
-</select>
+				
+				<select name="region" value={formData.region} onChange={handleChange} className="border p-2 w-full" required>
+					<option value="">-- Région française --</option>
+					{regions.map((region) => (
+						<option key={region.code} value={region.name}>
+							{region.name}
+						</option>
+					))}
+				</select>
+
+				<select name="department" value={formData.department} onChange={handleChange} className="border p-2 w-full" required>
+					<option value="">-- Département français --</option>
+					{departments.map((dept) => (
+						<option key={dept.code} value={dept.name}>
+							{dept.name}
+						</option>
+					))}
+				</select>
+
 				<button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">Enregistrer</button>
 			</form>
 
-			<Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Employé ajouté" description="Le dossier a bien été enregistré." size="sm" position="center">
-				<button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={() => setModalOpen(false)}>Fermer</button>
+			<Modal
+				isOpen={modalOpen}
+				onClose={() => setModalOpen(false)}
+				title="Employé ajouté"
+				description="Le dossier a bien été enregistré."
+				size="sm"
+				position="center"
+			>
+				<button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={() => setModalOpen(false)}>
+					Fermer
+				</button>
 			</Modal>
 		</div>
 	);
