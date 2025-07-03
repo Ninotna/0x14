@@ -6,7 +6,7 @@ import '@dev87/react-smart-modal/style.css';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { states } from '../data/states';
+import regions from '../data/regions-fr.json';
 import departments from '../data/departments-fr.json';
 
 const AddEmployee = () => {
@@ -14,17 +14,18 @@ const AddEmployee = () => {
 	const navigate = useNavigate();
 
 	const [modalOpen, setModalOpen] = useState(false);
-	const [formData, setFormData] = useState({
-		firstName: '',
-		lastName: '',
-		dateOfBirth: null,
-		startDate: null,
-		street: '',
-		city: '',
-		state: '',
-		zipCode: '',
-		department: ''
-	});
+const [formData, setFormData] = useState({
+	firstName: '',
+	lastName: '',
+	dateOfBirth: null,
+	startDate: null,
+	street: '',
+	city: '',
+	state: '',
+	zipCode: '',
+	department: '',
+	region: ''
+});
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -61,6 +62,20 @@ const handleSubmit = (e) => {
 					))}
 				</select>
 				<input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} placeholder="Code postal" className="border p-2 w-full" required />
+<select
+	name="region"
+	value={formData.region}
+	onChange={handleChange}
+	className="border p-2 w-full"
+	required
+>
+	<option value="">-- Région française --</option>
+	{regions.map((region) => (
+		<option key={region.code} value={region.name}>
+			{region.name}
+		</option>
+	))}
+</select>
 <select
 	name="department"
 	value={formData.department}
