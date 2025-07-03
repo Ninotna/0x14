@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
 import { Modal } from '@dev87/react-smart-modal';
-import '@dev87/react-smart-modal/style.css';
+import '@dev87/react-smart-modal';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';

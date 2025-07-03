@@ -9,8 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "style": "dist/react-smart-modal.css",
   "dependencies": {
-    "@dev87/react-smart-modal": "^1.0.1",
+    "@dev87/react-smart-modal": "^1.0.2",
     "@reduxjs/toolkit": "^2.8.2",
     "react": "^19.1.0",
     "react-data-table-component": "^7.7.0",
