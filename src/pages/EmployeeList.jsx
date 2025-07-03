@@ -50,7 +50,7 @@ const EmployeeList = () => {
 					className="p-2 border rounded w-full md:w-1/3"
 				/>
 
-				<select
+				{/* <select
 					value={departmentFilter}
 					onChange={(e) => setDepartmentFilter(e.target.value)}
 					className="p-2 border rounded w-full md:w-1/3"
@@ -70,7 +70,7 @@ const EmployeeList = () => {
 					{regions.map((r, i) => (
 						<option key={`${r}-${i}`} value={r}>{r}</option>
 					))}
-				</select>
+				</select> */}
 			</div>
 
 			<div className="mb-4 text-right">
