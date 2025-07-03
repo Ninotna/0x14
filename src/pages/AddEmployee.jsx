@@ -1,17 +1,18 @@
-
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
 import { Modal } from '@antonin/react-smart-modal';
 import '@antonin/react-smart-modal/style.css';
+import { useNavigate } from 'react-router-dom';
 
 const AddEmployee = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [modalOpen, setModalOpen] = useState(false);
 	const [formData, setFormData] = useState({
 		firstName: '',
 		lastName: '',
-		// Ajoute d'autres champs ici si nécessaire
+		// Autres champs si besoin
 	});
 
 	const handleChange = (e) => {
@@ -21,9 +22,18 @@ const AddEmployee = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(addEmployee(formData));
+
+		const employeeData = {
+			...formData,
+			id: Date.now(), // Exemple de génération d'ID
+		};
+
+		dispatch(addEmployee(employeeData));
 		setModalOpen(true);
-		setFormData({ firstName: '', lastName: '' });
+
+		setTimeout(() => {
+			navigate('/employees');
+		}, 500);
 	};
 
 	return (
