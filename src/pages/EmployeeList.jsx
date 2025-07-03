@@ -26,15 +26,18 @@ const EmployeeList = () => {
 	const departments = [...new Set(employees.map((e) => e.department))];
 	const states = [...new Set(employees.map((e) => e.state))];
 
-	const columns = [
-		{ name: 'Prénom', selector: (row) => row.firstName, sortable: true },
-		{ name: 'Nom', selector: (row) => row.lastName, sortable: true },
-		{ name: 'Département', selector: (row) => row.department, sortable: true },
-		{ name: 'Date de début', selector: (row) => row.startDate, sortable: true },
-		{ name: 'Date de naissance', selector: (row) => row.dateOfBirth, sortable: true },
-		{ name: 'Ville', selector: (row) => row.city, sortable: true },
-		{ name: 'État', selector: (row) => row.state, sortable: true },
-	];
+const columns = [
+	{ name: 'Prénom', selector: (row) => row.firstName, sortable: true },
+	{ name: 'Nom', selector: (row) => row.lastName, sortable: true },
+	{ name: 'Date de naissance', selector: (row) => new Date(row.dateOfBirth).toLocaleDateString(), sortable: true },
+	{ name: 'Date d\'embauche', selector: (row) => new Date(row.startDate).toLocaleDateString(), sortable: true },
+	{ name: 'Adresse', selector: (row) => row.street, sortable: true },
+	{ name: 'Ville', selector: (row) => row.city, sortable: true },
+	{ name: 'Code postal', selector: (row) => row.zipCode, sortable: true },
+	{ name: 'Région', selector: (row) => row.region, sortable: true },
+	{ name: 'Département', selector: (row) => row.department, sortable: true },
+];
+
 
 	return (
 		<div className="p-6">

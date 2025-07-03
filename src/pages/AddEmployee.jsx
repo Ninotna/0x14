@@ -21,7 +21,6 @@ const [formData, setFormData] = useState({
 	startDate: null,
 	street: '',
 	city: '',
-	state: '',
 	zipCode: '',
 	department: '',
 	region: ''
@@ -55,12 +54,6 @@ const handleSubmit = (e) => {
 				<DatePicker selected={formData.startDate} onChange={(date) => setFormData((prev) => ({ ...prev, startDate: date }))} className="border p-2 w-full" placeholderText="Date d'embauche" required />
 				<input type="text" name="street" value={formData.street} onChange={handleChange} placeholder="Adresse" className="border p-2 w-full" required />
 				<input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="Ville" className="border p-2 w-full" required />
-				<select name="state" value={formData.state} onChange={handleChange} className="border p-2 w-full" required>
-					<option value="">-- État --</option>
-					{states.map(({ name, abbreviation }) => (
-						<option key={abbreviation} value={abbreviation}>{name}</option>
-					))}
-				</select>
 				<input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} placeholder="Code postal" className="border p-2 w-full" required />
 <select
 	name="region"
