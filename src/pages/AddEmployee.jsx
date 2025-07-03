@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
-import { Modal } from '@antonin/react-smart-modal';
-import '@antonin/react-smart-modal/style.css';
+import { Modal } from '@dev87/react-smart-modal';
+import '@dev87/react-smart-modal/style.css';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { states } from '../data/states';
-import { departments } from '../data/departments';
+import departments from '../data/departments-fr.json';
 
 const AddEmployee = () => {
 	const dispatch = useDispatch();
@@ -61,12 +61,20 @@ const handleSubmit = (e) => {
 					))}
 				</select>
 				<input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} placeholder="Code postal" className="border p-2 w-full" required />
-				<select name="department" value={formData.department} onChange={handleChange} className="border p-2 w-full" required>
-					<option value="">-- Département --</option>
-					{departments.map((dept) => (
-						<option key={dept} value={dept}>{dept}</option>
-					))}
-				</select>
+<select
+	name="department"
+	value={formData.department}
+	onChange={handleChange}
+	className="border p-2 w-full"
+	required
+>
+	<option value="">-- Département français --</option>
+	{departments.map((dept) => (
+		<option key={dept.code} value={dept.name}>
+			{dept.name}
+		</option>
+	))}
+</select>
 				<button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">Enregistrer</button>
 			</form>
 
