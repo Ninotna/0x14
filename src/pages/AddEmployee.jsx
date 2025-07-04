@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import regions from '../data/regions-fr.json';
 import departments from '../data/departments-fr.json';
 import SelectMenu from '../components/SelectMenu';
+@import "tailwindcss";
 
 const AddEmployee = () => {
 	const dispatch = useDispatch();

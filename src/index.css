@@ -1,3 +1,14 @@
+@import 'tailwindcss/tokens';
+
+html, body {
+	min-height: 100%;
+	background-color: oklch(var(--color-background));
+	color: oklch(var(--color-foreground));
+	font-family: theme('fontFamily.sans');
+}
+
+
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
