@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addEmployee } from '../redux/employeesSlice';
-import { Modal } from '@dev87/react-smart-modal';
-import '@dev87/react-smart-modal';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Modal } from '@dev87/react-smart-modal';
+import '@dev87/react-smart-modal/style.css';
+import { addEmployee } from '../redux/employeesSlice';
 import regions from '../data/regions-fr.json';
 import departments from '../data/departments-fr.json';
 import SelectMenu from '../components/SelectMenu';
-@import "tailwindcss";
 
 const AddEmployee = () => {
 	const dispatch = useDispatch();
@@ -45,21 +44,21 @@ const AddEmployee = () => {
 		setTimeout(() => navigate('/employees'), 500);
 	};
 
-	return (
-	<div className="max-w-3xl mx-auto mt-10 px-6 py-8 bg-white rounded-xl shadow-md">
-		<h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-			Ajouter un employé
-		</h1>
+return (
+	<main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+		<div className="w-full max-w-3xl bg-white shadow-xl rounded-lg p-8">
+			<h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+				Ajouter un employé
+			</h1>
 
-		<form onSubmit={handleSubmit} className="space-y-6">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<input
 					type="text"
 					name="firstName"
 					value={formData.firstName}
 					onChange={handleChange}
 					placeholder="Prénom"
-					className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					className="input"
 					required
 				/>
 				<input
@@ -68,15 +67,16 @@ const AddEmployee = () => {
 					value={formData.lastName}
 					onChange={handleChange}
 					placeholder="Nom"
-					className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					className="input"
 					required
 				/>
+
 				<DatePicker
 					selected={formData.dateOfBirth}
 					onChange={(date) =>
 						setFormData((prev) => ({ ...prev, dateOfBirth: date }))
 					}
-					className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					className="input"
 					placeholderText="Date de naissance"
 					required
 				/>
@@ -85,17 +85,18 @@ const AddEmployee = () => {
 					onChange={(date) =>
 						setFormData((prev) => ({ ...prev, startDate: date }))
 					}
-					className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					className="input"
 					placeholderText="Date d'embauche"
 					required
 				/>
+
 				<input
 					type="text"
 					name="street"
 					value={formData.street}
 					onChange={handleChange}
 					placeholder="Adresse"
-					className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 col-span-full"
+					className="input col-span-2"
 					required
 				/>
 				<input
@@ -104,7 +105,7 @@ const AddEmployee = () => {
 					value={formData.city}
 					onChange={handleChange}
 					placeholder="Ville"
-					className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					className="input"
 					required
 				/>
 				<input
@@ -113,63 +114,55 @@ const AddEmployee = () => {
 					value={formData.zipCode}
 					onChange={handleChange}
 					placeholder="Code postal"
-					className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					className="input"
 					required
 				/>
 
-				<div className="md:col-span-2">
-					<SelectMenu
-						label="-- Région française --"
-						value={formData.region}
-						onChange={(value) =>
-							setFormData((prev) => ({ ...prev, region: value }))
-						}
-						options={regions.map((r) => ({
-							label: r.name,
-							value: r.name
-						}))}
-					/>
+				<SelectMenu
+					label="Région"
+					value={formData.region}
+					onChange={(value) =>
+						setFormData((prev) => ({ ...prev, region: value }))
+					}
+					options={regions.map((r) => ({ label: r.name, value: r.name }))}
+				/>
+
+				<SelectMenu
+					label="Département"
+					value={formData.department}
+					onChange={(value) =>
+						setFormData((prev) => ({ ...prev, department: value }))
+					}
+					options={departments.map((d) => ({ label: d.name, value: d.name }))}
+				/>
+
+				<div className="col-span-2 text-center mt-4">
+					<button
+						type="submit"
+						className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded transition duration-200"
+					>
+						Enregistrer
+					</button>
 				</div>
+			</form>
 
-				<div className="md:col-span-2">
-					<SelectMenu
-						label="-- Département français --"
-						value={formData.department}
-						onChange={(value) =>
-							setFormData((prev) => ({ ...prev, department: value }))
-						}
-						options={departments.map((d) => ({
-							label: d.name,
-							value: d.name
-						}))}
-					/>
-				</div>
-			</div>
-
-			<button
-				type="submit"
-				className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded transition"
+			<Modal
+				isOpen={modalOpen}
+				onClose={() => setModalOpen(false)}
+				title="Employé ajouté"
+				description="Le dossier a bien été enregistré."
+				size="sm"
+				position="center"
 			>
-				Enregistrer
-			</button>
-		</form>
-
-		<Modal
-			isOpen={modalOpen}
-			onClose={() => setModalOpen(false)}
-			title="Employé ajouté"
-			description="Le dossier a bien été enregistré."
-			size="sm"
-			position="center"
-		>
-			<button
-				className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition"
-				onClick={() => setModalOpen(false)}
-			>
-				Fermer
-			</button>
-		</Modal>
-	</div>
+				<button
+					className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+					onClick={() => setModalOpen(false)}
+				>
+					Fermer
+				</button>
+			</Modal>
+		</div>
+	</main>
 );
 
 };

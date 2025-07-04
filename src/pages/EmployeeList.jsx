@@ -6,30 +6,30 @@ const EmployeeList = () => {
 	const employees = useSelector((state) => state.employees.list);
 	const [search, setSearch] = useState('');
 	const [departmentFilter, setDepartmentFilter] = useState('');
-	const [regionFilter, setRegionFilter] = useState('');
+	const [stateFilter, setStateFilter] = useState('');
 
 	const resetFilters = () => {
 		setSearch('');
 		setDepartmentFilter('');
-		setRegionFilter('');
+		setStateFilter('');
 	};
 
 	const filteredEmployees = employees.filter((emp) => {
-		const fullText = `${emp.firstName} ${emp.lastName} ${emp.department} ${emp.city} ${emp.region}`.toLowerCase();
+		const fullText = `${emp.firstName} ${emp.lastName} ${emp.department} ${emp.city} ${emp.state}`.toLowerCase();
 		const matchSearch = fullText.includes(search.toLowerCase());
 		const matchDept = departmentFilter ? emp.department === departmentFilter : true;
-		const matchRegion = regionFilter ? emp.region === regionFilter : true;
-		return matchSearch && matchDept && matchRegion;
+		const matchState = stateFilter ? emp.state === stateFilter : true;
+		return matchSearch && matchDept && matchState;
 	});
 
 	const departments = [...new Set(employees.map((e) => e.department))];
-	const regions = [...new Set(employees.map((e) => e.region))];
+	const states = [...new Set(employees.map((e) => e.state))];
 
 	const columns = [
 		{ name: 'Prénom', selector: (row) => row.firstName, sortable: true },
 		{ name: 'Nom', selector: (row) => row.lastName, sortable: true },
 		{ name: 'Date de naissance', selector: (row) => new Date(row.dateOfBirth).toLocaleDateString(), sortable: true },
-		{ name: "Date d'embauche", selector: (row) => new Date(row.startDate).toLocaleDateString(), sortable: true },
+		{ name: 'Date embauche', selector: (row) => new Date(row.startDate).toLocaleDateString(), sortable: true },
 		{ name: 'Adresse', selector: (row) => row.street, sortable: true },
 		{ name: 'Ville', selector: (row) => row.city, sortable: true },
 		{ name: 'Code postal', selector: (row) => row.zipCode, sortable: true },
@@ -38,47 +38,45 @@ const EmployeeList = () => {
 	];
 
 	return (
-		<div className="p-6">
-			<h1 className="text-xl font-bold mb-4">Liste des employés</h1>
+		<div className="p-8 max-w-6xl mx-auto">
+			<h1 className="text-2xl font-bold mb-6 text-gray-800">Liste des employés</h1>
 
-			<div className="flex flex-col md:flex-row gap-4 mb-4">
+			<div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 				<input
 					type="text"
-					placeholder="Rechercher un employé..."
+					placeholder="Rechercher..."
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
-					className="p-2 border rounded w-full md:w-1/3"
+					className="input input-bordered w-full"
 				/>
 
 				{/* <select
 					value={departmentFilter}
 					onChange={(e) => setDepartmentFilter(e.target.value)}
-					className="p-2 border rounded w-full md:w-1/3"
+					className="select select-bordered w-full"
 				>
 					<option value="">Tous les départements</option>
-					{departments.map((d, i) => (
-						<option key={`${d}-${i}`} value={d}>{d}</option>
+					{departments.map((d) => (
+						<option key={d} value={d}>{d}</option>
 					))}
 				</select>
 
 				<select
-					value={regionFilter}
-					onChange={(e) => setRegionFilter(e.target.value)}
-					className="p-2 border rounded w-full md:w-1/3"
+					value={stateFilter}
+					onChange={(e) => setStateFilter(e.target.value)}
+					className="select select-bordered w-full"
 				>
-					<option value="">Toutes les régions</option>
-					{regions.map((r, i) => (
-						<option key={`${r}-${i}`} value={r}>{r}</option>
+					<option value="">Tous les états</option>
+					{states.map((s) => (
+						<option key={s} value={s}>{s}</option>
 					))}
 				</select> */}
-			</div>
 
-			<div className="mb-4 text-right">
 				<button
 					onClick={resetFilters}
-					className="p-2 bg-gray-300 hover:bg-gray-400 text-sm rounded"
+					className="btn btn-secondary w-full"
 				>
-					Réinitialiser les filtres
+					Réinitialiser
 				</button>
 			</div>
 
