@@ -1,15 +1,24 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { Modal } from '@dev87/react-smart-modal'
+import 'react-datepicker/dist/react-datepicker.css'
 import '@dev87/react-smart-modal/style.css'
 import { addEmployee } from '../redux/employeesSlice'
 import regions from '../data/regions-fr.json'
 import departments from '../data/departments-fr.json'
 import SelectMenu from '../components/SelectMenu'
 import DateFieldRow from '../components/DateFieldRow'
+import validators from '../services/validators'
+import FieldError from '../components/FieldError'
+
+const services = [
+  { label: 'RH', value: 'RH' },
+  { label: 'Finance', value: 'Finance' },
+  { label: 'IT', value: 'IT' },
+  { label: 'Marketing', value: 'Marketing' },
+  { label: 'Direction', value: 'Direction' },
+]
 
 const AddEmployee = () => {
   const dispatch = useDispatch()
@@ -26,20 +35,41 @@ const AddEmployee = () => {
     zipCode: '',
     department: '',
     region: '',
+    service: '',
   })
+
+  const [errors, setErrors] = useState({})
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    const error = validators[name] ? validators[name](value) : ''
+    setErrors((prev) => ({ ...prev, [name]: error }))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const newErrors = {}
+    Object.entries(formData).forEach(([name, value]) => {
+      if (validators[name]) {
+        const error = validators[name](value)
+        if (error) {
+          newErrors[name] = error
+        }
+      }
+    })
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+
     const formattedData = {
       ...formData,
       dateOfBirth: formData.dateOfBirth?.toLocaleDateString(),
       startDate: formData.startDate?.toLocaleDateString(),
     }
+
     dispatch(addEmployee(formattedData))
     setModalOpen(true)
     setTimeout(() => navigate('/employees'), 3000)
@@ -47,7 +77,7 @@ const AddEmployee = () => {
 
   return (
     <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg p-8 relative z-10 ">
+      <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg p-8 relative z-10">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Ajouter un employé
         </h1>
@@ -56,24 +86,30 @@ const AddEmployee = () => {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Prénom"
-            className="input"
-            required
-          />
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Nom"
-            className="input"
-            required
-          />
+          <div>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="Prénom"
+              className="input"
+              required
+            />
+            <FieldError message={errors.firstName} />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Nom"
+              className="input"
+              required
+            />
+            <FieldError message={errors.lastName} />
+          </div>
 
           <DateFieldRow
             label1="Date de naissance"
@@ -88,33 +124,42 @@ const AddEmployee = () => {
             }
           />
 
-          <input
-            type="text"
-            name="street"
-            value={formData.street}
-            onChange={handleChange}
-            placeholder="Adresse"
-            className="input col-span-2"
-            required
-          />
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            placeholder="Ville"
-            className="input"
-            required
-          />
-          <input
-            type="text"
-            name="zipCode"
-            value={formData.zipCode}
-            onChange={handleChange}
-            placeholder="Code postal"
-            className="input"
-            required
-          />
+          <div className="col-span-2">
+            <input
+              type="text"
+              name="street"
+              value={formData.street}
+              onChange={handleChange}
+              placeholder="Adresse"
+              className="input w-full"
+              required
+            />
+            <FieldError message={errors.street} />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              placeholder="Ville"
+              className="input"
+              required
+            />
+            <FieldError message={errors.city} />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="zipCode"
+              value={formData.zipCode}
+              onChange={handleChange}
+              placeholder="Code postal"
+              className="input"
+              required
+            />
+            <FieldError message={errors.zipCode} />
+          </div>
 
           <SelectMenu
             label="Région"
@@ -124,7 +169,6 @@ const AddEmployee = () => {
             }
             options={regions.map((r) => ({ label: r.name, value: r.name }))}
           />
-
           <SelectMenu
             label="Département"
             value={formData.department}
@@ -133,6 +177,16 @@ const AddEmployee = () => {
             }
             options={departments.map((d) => ({ label: d.name, value: d.name }))}
           />
+
+          <SelectMenu
+            label="Service"
+            value={formData.service}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, service: value }))
+            }
+            options={services}
+          />
+          <FieldError message={errors.service} />
 
           <div className="col-span-2 text-center mt-4">
             <button
