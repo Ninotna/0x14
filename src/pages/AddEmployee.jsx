@@ -9,6 +9,7 @@ import { addEmployee } from '../redux/employeesSlice'
 import regions from '../data/regions-fr.json'
 import departments from '../data/departments-fr.json'
 import SelectMenu from '../components/SelectMenu'
+import DateFieldRow from '../components/DateFieldRow'
 
 const AddEmployee = () => {
   const dispatch = useDispatch()
@@ -74,27 +75,18 @@ const AddEmployee = () => {
             required
           />
 
-          <div className="flex w-full gap-4">
-            <DatePicker
-              selected={formData.dateOfBirth}
-              onChange={(date) =>
-                setFormData((prev) => ({ ...prev, dateOfBirth: date }))
-              }
-              placeholderText="Date de naissance"
-              className="input w-full"
-              required
-            />
-
-            <DatePicker
-              selected={formData.startDate}
-              onChange={(date) =>
-                setFormData((prev) => ({ ...prev, startDate: date }))
-              }
-              placeholderText="Date d'embauche"
-              className="input w-full"
-              required
-            />
-          </div>
+          <DateFieldRow
+            label1="Date de naissance"
+            label2="Date d'embauche"
+            value1={formData.dateOfBirth}
+            value2={formData.startDate}
+            onChange1={(d) =>
+              setFormData((prev) => ({ ...prev, dateOfBirth: d }))
+            }
+            onChange2={(d) =>
+              setFormData((prev) => ({ ...prev, startDate: d }))
+            }
+          />
 
           <input
             type="text"
