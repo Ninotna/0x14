@@ -42,7 +42,7 @@ const AddEmployee = () => {
     }
     dispatch(addEmployee(formattedData))
     setModalOpen(true)
-    setTimeout(() => navigate('/employees'), 500)
+    setTimeout(() => navigate('/employees'), 3000)
   }
 
   return (
@@ -153,7 +153,7 @@ const AddEmployee = () => {
           position="center"
         >
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-2 rounded"
             onClick={() => setModalOpen(false)}
           >
             Fermer
