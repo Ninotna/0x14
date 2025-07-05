@@ -1,0 +1,2 @@
+Projet HRnet complet sur Github: https://github.com/Ninotna/0x14
+Plugin React publié sur npm et lien vers Github: https://github.com/Ninotna/0x14_react-smart-modal
