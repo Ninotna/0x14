@@ -1,31 +1,40 @@
-// components/SelectMenu.jsx
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
-
-const SelectMenu = ({ label, options, value, onChange }) => {
+export function SelectMenu({ label, value, onChange, options })
+{
 	return (
 		<DropdownMenu.Root>
-			<DropdownMenu.Trigger className="flex items-center justify-between border p-2 w-full rounded bg-white">
-				{value || label}
-				<ChevronDownIcon className="ml-2" />
+			<DropdownMenu.Trigger asChild>
+				<button
+					className="w-full flex justify-between items-center border border-gray-300 px-4 py-2 rounded bg-white text-sm"
+				>
+					<span>{value || <span className="text-gray-400">{label}</span>}</span>
+					<ChevronDownIcon className="w-4 h-4 text-gray-500 ml-2" />
+				</button>
 			</DropdownMenu.Trigger>
 
 			<DropdownMenu.Portal>
-				<DropdownMenu.Content className="bg-white border rounded shadow-md z-50">
-					{options.map((opt) => (
+				<DropdownMenu.Content
+					className="bg-white border border-gray-300 rounded shadow-md z-50 w-full max-h-64 overflow-y-auto"
+					sideOffset={4}
+				>
+					{options.map((option) => (
 						<DropdownMenu.Item
-							key={opt.value}
-							onSelect={() => onChange(opt.value)}
-							className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+							key={option.value}
+							onSelect={() => onChange(option.value)}
+							className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
 						>
-							{opt.label}
+							{option.label}
 						</DropdownMenu.Item>
 					))}
 				</DropdownMenu.Content>
 			</DropdownMenu.Portal>
 		</DropdownMenu.Root>
 	);
-};
+}
+
+
+
 
 export default SelectMenu;

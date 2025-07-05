@@ -22,8 +22,8 @@ const EmployeeList = () => {
 		return matchSearch && matchDept && matchState;
 	});
 
-	const departments = [...new Set(employees.map((e) => e.department))];
-	const states = [...new Set(employees.map((e) => e.state))];
+	// const departments = [...new Set(employees.map((e) => e.department))];
+	// const states = [...new Set(employees.map((e) => e.state))];
 
 	const columns = [
 		{ name: 'Prénom', selector: (row) => row.firstName, sortable: true },
