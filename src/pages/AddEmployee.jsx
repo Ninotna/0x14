@@ -11,6 +11,7 @@ import SelectMenu from '../components/SelectMenu'
 import DateFieldRow from '../components/DateFieldRow'
 import validators from '../services/validators'
 import FieldError from '../components/FieldError'
+import TailwindCheck from '../components/TailWindCheck'
 
 const services = [
   { label: 'RH', value: 'RH' },
@@ -72,7 +73,7 @@ const AddEmployee = () => {
 
     dispatch(addEmployee(formattedData))
     setModalOpen(true)
-    setTimeout(() => navigate('/employees'), 3000)
+    // setTimeout(() => navigate('/employees'), 3000)
   }
 
   return (
@@ -81,7 +82,7 @@ const AddEmployee = () => {
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Ajouter un employé
         </h1>
-
+        {/* <TailwindCheck /> */}
         <form
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
@@ -203,7 +204,7 @@ const AddEmployee = () => {
           onClose={() => setModalOpen(false)}
           title="Employé ajouté"
           description="Le dossier a bien été enregistré."
-          size="sm"
+          size="xl"
           position="center"
         >
           <button
