@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '@dev87/react-smart-modal'
+import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import '@dev87/react-smart-modal/style.css'
 import { addEmployee } from '../redux/employeesSlice'
 import regions from '../data/regions-fr.json'
 import departments from '../data/departments-fr.json'
 import SelectMenu from '../components/SelectMenu'
-import DateFieldRow from '../components/DateFieldRow'
 import validators from '../services/validators'
 import FieldError from '../components/FieldError'
 import TailwindCheck from '../components/TailWindCheck'
@@ -117,18 +117,39 @@ const AddEmployee = () => {
             <FieldError message={errors.lastName} />
           </div>
 
-          <DateFieldRow
-            label1="Date de naissance"
-            label2="Date d'embauche"
-            value1={formData.dateOfBirth}
-            value2={formData.startDate}
-            onChange1={(d) =>
-              setFormData((prev) => ({ ...prev, dateOfBirth: d }))
-            }
-            onChange2={(d) =>
-              setFormData((prev) => ({ ...prev, startDate: d }))
-            }
-          />
+          <div className="col-span-2 flex flex-col md:flex-row md:space-x-4">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Date de naissance
+              </label>
+              <DatePicker
+                selected={formData.dateOfBirth}
+                onChange={(date) =>
+                  setFormData((prev) => ({ ...prev, dateOfBirth: date }))
+                }
+                dateFormat="yyyy-MM-dd"
+                className="input w-full"
+                placeholderText="Sélectionner une date"
+              />
+              <FieldError message={errors.dateOfBirth} />
+            </div>
+
+            <div className="flex-1 mt-4 md:mt-0">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Date d'embauche
+              </label>
+              <DatePicker
+                selected={formData.startDate}
+                onChange={(date) =>
+                  setFormData((prev) => ({ ...prev, startDate: date }))
+                }
+                dateFormat="yyyy-MM-dd"
+                className="input w-full"
+                placeholderText="Sélectionner une date"
+              />
+              <FieldError message={errors.startDate} />
+            </div>
+          </div>
 
           <div className="col-span-2">
             <input
