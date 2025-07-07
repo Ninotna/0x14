@@ -72,8 +72,8 @@ const AddEmployee = () => {
 
     const formattedData = {
       ...formData,
-      dateOfBirth: formData.dateOfBirth?.toLocaleDateString(),
-      startDate: formData.startDate?.toLocaleDateString(),
+      dateOfBirth: formData.dateOfBirth?.toISOString().split('T')[0],
+      startDate: formData.startDate?.toISOString().split('T')[0],
     }
 
     dispatch(addEmployee(formattedData))
