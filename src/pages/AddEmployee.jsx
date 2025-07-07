@@ -48,6 +48,11 @@ const AddEmployee = () => {
     setErrors((prev) => ({ ...prev, [name]: error }))
   }
 
+  const closeAndRedirect = () => {
+    setModalOpen(false)
+    navigate('/employees')
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const newErrors = {}
@@ -201,7 +206,7 @@ const AddEmployee = () => {
 
         <Modal
           isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
+          onClose={closeAndRedirect}
           title="Employé ajouté"
           description="Le dossier a bien été enregistré."
           size="xl"
@@ -209,7 +214,7 @@ const AddEmployee = () => {
         >
           <button
             className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-2 rounded"
-            onClick={() => setModalOpen(false)}
+            onClick={closeAndRedirect}
           >
             Fermer
           </button>
